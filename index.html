@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiradentes RP · Verificação de Personagem</title>
+    <meta name="description" content="Sistema oficial de verificação de personagens Roblox para o Tiradentes RP.">
+
+    <!-- Favicon / Ícone -->
+    <link rel="icon" type="image/png" href="https://cdn.discordapp.com/attachments/1519481710969094258/1519884087307931699/ChatGPT_Image_25_de_jun._de_2026_22_56_52.png?ex=6a3f2ddc&is=6a3ddc5c&hm=1d7ec652a54b51c5ab26fc43bbabf49439ea9a29751e32ab4268c267037bb91b&">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Tiradentes RP · Verificação de Personagem">
+    <meta property="og:description" content="Sistema oficial de verificação de personagens Roblox.">
+    <meta property="og:image" content="https://cdn.discordapp.com/attachments/1519481710969094258/1519883106147111093/ChatGPT_Image_25_de_jun._de_2026_22_52_31.png?ex=6a3f2cf2&is=6a3ddb72&hm=f777d5122469cc14ce5e062ecd750632a7f190c50d105208258feb2cb0ed0d6d&">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Fontes -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg: #0a0f1a;
+            --bg2: #0f172a;
+            --card: #111827;
+            --border: #1e293b;
+            --accent: #3b82f6;
+            --accent2: #2563eb;
+            --text: #f8fafc;
+            --text2: #cbd5e1;
+            --muted: #94a3b8;
+            --danger: #ef4444;
+            --success: #10b981;
+            --shadow: 0 8px 32px rgba(0,0,0,0.4);
+            --radius: 20px;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            width: 100%;
+            height: 40vh;
+            min-height: 260px;
+            background: url('https://cdn.discordapp.com/attachments/1519481710969094258/1519883106147111093/ChatGPT_Image_25_de_jun._de_2026_22_52_31.png?ex=6a3f2cf2&is=6a3ddb72&hm=f777d5122469cc14ce5e062ecd750632a7f190c50d105208258feb2cb0ed0d6d&') center/cover;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%; height: 30%;
+            background: linear-gradient(to top, var(--bg), transparent);
+            pointer-events: none;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+        }
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p { font-size: 1.1rem; margin-top: 0.5rem; opacity: 0.9; }
+
+        .container {
+            flex: 1;
+            max-width: 700px;
+            margin: -40px auto 2rem;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 3;
+            width: 100%;
+        }
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            animation: fadeUp 0.4s ease;
+        }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.8rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .card-header img {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--bg2);
+            padding: 6px;
+            border: 1px solid var(--border);
+        }
+        .card-header h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #f8fafc 0%, #93c5fd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .field { margin-bottom: 1.3rem; }
+        .field label { display: block; margin-bottom: 0.4rem; font-weight: 500; color: var(--text2); font-size: 0.9rem; }
+        .field input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            color: white;
+            font-size: 0.95rem;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            transition: 0.2s;
+        }
+        .field input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59,130,246,0.2); }
+
+        .btn {
+            width: 100%;
+            padding: 0.9rem;
+            border: none;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: 0.2s;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            box-shadow: 0 4px 15px rgba(59,130,246,0.3);
+            margin-top: 1rem;
+        }
+        .btn:hover { background: linear-gradient(135deg, #4f94f7, #3b82f6); transform: translateY(-2px); }
+        .btn:active { transform: scale(0.97); }
+        .btn:disabled { opacity: 0.5; pointer-events: none; }
+        .btn-success { background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 15px rgba(16,185,129,0.3); margin-top: 0.8rem; }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text2);
+            box-shadow: none;
+            margin-top: 0.5rem;
+        }
+        .btn-outline:hover { background: var(--bg2); border-color: var(--accent); color: #93c5fd; }
+
+        .result-box { display: none; text-align: center; margin-top: 1.5rem; animation: fadeUp 0.3s ease; }
+        .result-box.show { display: block; }
+        .avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 3px solid var(--accent);
+            box-shadow: 0 0 25px rgba(59,130,246,0.4);
+            object-fit: cover;
+            background: var(--bg2);
+            margin-bottom: 0.8rem;
+        }
+        .user-name { font-size: 1.2rem; font-weight: 600; }
+        .user-muted { font-size: 0.85rem; color: var(--muted); }
+
+        .msg {
+            padding: 0.8rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            font-weight: 500;
+            display: none;
+        }
+        .msg.success { background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); color: #6ee7b7; display: block; }
+        .msg.error { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; display: block; }
+
+        .footer {
+            text-align: center;
+            padding: 1rem;
+            color: var(--muted);
+            font-size: 0.8rem;
+            margin-top: auto;
+        }
+
+        .spinner {
+            width: 18px; height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .confetti {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .confetti span {
+            position: absolute;
+            width: 10px; height: 10px;
+            top: -10px;
+            animation: drop linear forwards;
+        }
+        @keyframes drop {
+            to { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        @media (max-width: 600px) {
+            .hero { height: 30vh; }
+            .container { margin-top: -30px; }
+            .card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Tiradentes RP</h1>
+            <p>Verificação de Personagem Roblox</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <img src="https://cdn.discordapp.com/attachments/1519481710969094258/1519884087307931699/ChatGPT_Image_25_de_jun._de_2026_22_56_52.png?ex=6a3f2ddc&is=6a3ddc5c&hm=1d7ec652a54b51c5ab26fc43bbabf49439ea9a29751e32ab4268c267037bb91b&" alt="Logo" onerror="this.style.display='none';">
+                <h2>Verificação de Personagem</h2>
+            </div>
+
+            <div id="form-area">
+                <div class="field">
+                    <label><i class="fas fa-user"></i> Nome do Personagem (RP)</label>
+                    <input type="text" id="nomeRP" placeholder="Ex: Soldado Silva" autocomplete="off">
+                </div>
+                <div class="field">
+                    <label><i class="fab fa-discord"></i> Nick do Discord</label>
+                    <input type="text" id="discordNick" placeholder="Ex: fulano#1234" autocomplete="off">
+                </div>
+                <div class="field">
+                    <label><i class="fab fa-roblox"></i> Nick do Roblox</label>
+                    <input type="text" id="robloxNick" placeholder="Ex: joaoroblox123" autocomplete="off">
+                </div>
+                <button class="btn" id="btn-buscar" onclick="buscarUsuario()">
+                    <i class="fas fa-search"></i> Verificar Nick
+                </button>
+                <div id="msg-erro-form" class="msg error"></div>
+            </div>
+
+            <div id="result-area" class="result-box">
+                <img id="avatar-img" class="avatar" src="" alt="Avatar">
+                <div id="info-user" class="user-name"></div>
+                <div class="user-muted" id="info-id"></div>
+                <p style="margin:0.8rem 0; color:var(--muted);">Este é o seu perfil do Roblox?</p>
+                <button class="btn btn-success" id="btn-sim" onclick="confirmar()">
+                    <i class="fas fa-check-circle"></i> Sim, sou eu!
+                </button>
+                <button class="btn btn-outline" id="btn-nao" onclick="resetarBusca()">
+                    <i class="fas fa-search"></i> Não, buscar outro
+                </button>
+                <div id="msg-sucesso" class="msg success"></div>
+                <div id="msg-erro-confirm" class="msg error"></div>
+            </div>
+        </div>
+        <div class="footer">
+            <i class="fas fa-shield-alt"></i> Tiradentes RP © 2026 · Sistema de Verificação
+        </div>
+    </div>
+
+    <script>
+        const WEBHOOK_PUBLICO = "https://discord.com/api/webhooks/1519885054145335326/LdwEr8QUdEtYI-xB7JStL5S0n71WtDHcGfbuBFvT6esCTlcDjNMeMojc63GHisI86Q4t";
+
+        let dadosUsuario = null;
+        let discordSalvo = '';
+
+        function mostrarMsg(id, texto) {
+            const el = document.getElementById(id);
+            el.textContent = texto;
+            el.style.display = 'block';
+            if (id.includes('erro')) setTimeout(() => el.style.display = 'none', 5000);
+        }
+        function esconderMsg(id) { document.getElementById(id).style.display = 'none'; }
+        function loading(botao, ativo) {
+            const btn = document.getElementById(botao);
+            btn.disabled = ativo;
+            btn.innerHTML = ativo ? '<span class="spinner"></span> Carregando...' :
+                (botao === 'btn-buscar' ? '<i class="fas fa-search"></i> Verificar Nick' : '<i class="fas fa-check-circle"></i> Sim, sou eu!');
+        }
+
+        async function buscarUsuario() {
+            const nomeRP = document.getElementById('nomeRP').value.trim();
+            const discord = document.getElementById('discordNick').value.trim();
+            const roblox = document.getElementById('robloxNick').value.trim();
+
+            if (!nomeRP || !discord || !roblox) {
+                mostrarMsg('msg-erro-form', 'Preencha todos os campos obrigatórios.');
+                return;
+            }
+
+            discordSalvo = discord;
+            esconderMsg('msg-erro-form');
+            esconderMsg('msg-erro-confirm');
+            esconderMsg('msg-sucesso');
+            document.getElementById('result-area').classList.remove('show');
+            loading('btn-buscar', true);
+
+            try {
+                const searchUrl = `https://users.roblox.com/v1/users/search?keyword=${encodeURIComponent(roblox)}&limit=10`;
+                const response = await fetch(searchUrl);
+                if (!response.ok) throw new Error('Erro na API do Roblox (status ' + response.status + ')');
+                const data = await response.json();
+                if (!data.data || data.data.length === 0) {
+                    throw new Error('Nenhum usuário encontrado com esse nick.');
+                }
+                const usuario = data.data.find(u => u.name.toLowerCase() === roblox.toLowerCase()) || data.data[0];
+                const userId = usuario.id;
+                const username = usuario.name;
+
+                const avatarUrl = `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${userId}&size=420x420&format=Png`;
+                const avatarRes = await fetch(avatarUrl);
+                const avatarData = await avatarRes.json();
+                const avatar = avatarData.data[0]?.imageUrl || '';
+
+                dadosUsuario = { id: userId, name: username, avatar, nomeRP };
+
+                document.getElementById('avatar-img').src = avatar;
+                document.getElementById('info-user').textContent = username;
+                document.getElementById('info-id').textContent = `ID: ${userId}`;
+                document.getElementById('result-area').classList.add('show');
+                document.getElementById('form-area').style.display = 'none';
+            } catch (erro) {
+                console.error(erro);
+                mostrarMsg('msg-erro-form', 'Falha ao consultar Roblox: ' + erro.message);
+            } finally {
+                loading('btn-buscar', false);
+            }
+        }
+
+        async function confirmar() {
+            if (!dadosUsuario) return;
+            loading('btn-sim', true);
+            esconderMsg('msg-erro-confirm');
+            esconderMsg('msg-sucesso');
+
+            const { id, name, avatar, nomeRP } = dadosUsuario;
+
+            const embed = {
+                title: "✅ Novo Personagem Verificado",
+                color: 0x00d4aa,
+                timestamp: new Date().toISOString(),
+                fields: [
+                    { name: "📋 Nome RP", value: nomeRP.substring(0, 256), inline: true },
+                    { name: "🎮 Roblox", value: name.substring(0, 256), inline: true },
+                    { name: "🆔 Roblox ID", value: id.toString().substring(0, 256), inline: true }
+                ],
+                thumbnail: { url: avatar },
+                footer: {
+                    text: "Tiradentes RP · Sistema de Verificação"
+                }
+            };
+
+            const mensagemTexto = `@${discordSalvo}`;
+
+            const payload = {
+                content: mensagemTexto,
+                embeds: [embed]
+            };
+
+            console.log("Payload enviado:", JSON.stringify(payload, null, 2));
+
+            try {
+                const resposta = await fetch(WEBHOOK_PUBLICO, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!resposta.ok) {
+                    let erroMsg = '';
+                    try {
+                        const err = await resposta.json();
+                        erroMsg = err.message || resposta.status;
+                    } catch(e) {}
+                    throw new Error('Erro do Discord: ' + (erroMsg || 'Status ' + resposta.status));
+                }
+
+                mostrarMsg('msg-sucesso', '✅ Personagem verificado com sucesso! Bem-vindo ao servidor.');
+                criarConfetes();
+                document.getElementById('btn-sim').disabled = true;
+                document.getElementById('btn-nao').disabled = true;
+                setTimeout(resetarTudo, 3500);
+
+            } catch (erro) {
+                console.error(erro);
+                mostrarMsg('msg-erro-confirm', erro.message || 'Falha ao enviar para o Discord. Verifique o webhook.');
+            } finally {
+                loading('btn-sim', false);
+            }
+        }
+
+        function resetarBusca() {
+            document.getElementById('form-area').style.display = 'block';
+            document.getElementById('result-area').classList.remove('show');
+            dadosUsuario = null;
+            document.getElementById('robloxNick').value = '';
+            document.getElementById('robloxNick').focus();
+        }
+        function resetarTudo() {
+            resetarBusca();
+            document.getElementById('nomeRP').value = '';
+            document.getElementById('discordNick').value = '';
+            document.getElementById('btn-sim').disabled = false;
+            document.getElementById('btn-nao').disabled = false;
+            esconderMsg('msg-sucesso');
+        }
+
+        function criarConfetes() {
+            const container = document.createElement('div');
+            container.className = 'confetti';
+            const cores = ['#fbbf24','#ef4444','#10b981','#3b82f6','#f472b6','#8b5cf6'];
+            for (let i=0; i<70; i++) {
+                const span = document.createElement('span');
+                span.style.left = Math.random()*100+'%';
+                span.style.backgroundColor = cores[Math.floor(Math.random()*cores.length)];
+                span.style.animationDuration = (Math.random()*2+2)+'s';
+                span.style.animationDelay = Math.random()*1.5+'s';
+                span.style.borderRadius = Math.random()>0.5 ? '50%' : '2px';
+                container.appendChild(span);
+            }
+            document.body.appendChild(container);
+            setTimeout(() => container.remove(), 4000);
+        }
+    </script>
+</body>
+</html>
